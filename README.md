@@ -40,11 +40,6 @@ The dataset used is **english-words.70**, which includes approximately 33,000 En
 5. **Self-Attention Mechanism**:  
    - Adding a self-attention mechanism to predict the probabilities of letters across the entire word, rather than simply calculating the average probabilities across the masked positions, did not enhance performance.
 
-<img src="loss.png" alt="loss" width="45%">
-<img src="validation.png" alt="validation" width="45%">
-The upper panel displays the training and test loss curves. The success rate reaches approximately 66% after 500 epochs of training. The lower panel illustrates the model's performance. 
-The X-axis represents the word lengths, while the Y-axis shows the completion fraction per word. Dots represent the mean values, and error bars indicate one standard deviation. 
-The gray lines depict the success rate for different word lengths. This panel highlights that the model performs poorly for shorter words.
 
 
 
