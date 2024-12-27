@@ -245,12 +245,12 @@ if __name__ == "__main__":
     # know_words = pd.read_csv('known_words.csv')
     char_to_index = {**train_data.v2i, '_': MASK_ID}
     word_length = []
-    finished_fraction = []
+    completion_fraction = []
     successful = []
     for i in range(len(hangman_challenge.dictionary)):
         hangman_challenge.reset(i)
-        # I try to gass the first letter of the word according the frenquencies of letters in the words with the length of the target
-        # in order to avoid the requirement of the training of full mask cases, but found this is not helpful. 
+        # I try to gass the first letter of the word according to the frenquencies of letters in the words with the same length as the target
+        # in order to avoid the requirement of the training for full mask cases, but found this is not helpful. 
         # while not hangman_challenge.good_gass:  
         #     gass = fraction_policy(len(hangman_challenge.observation), hangman_challenge.failed_gass)
         #     hangman_challenge.test_policy(gass) 
@@ -267,33 +267,33 @@ if __name__ == "__main__":
                     break
             hangman_challenge.test_policy(gass)
         word_length.append(len(hangman_challenge.observation))
-        finished_fraction.append(hangman_challenge.finished_fraction)
+        completion_fraction.append(hangman_challenge.completion_fraction)
         successful.append(hangman_challenge.success)
     word_length = np.array(word_length)
-    finished_fraction = np.array(finished_fraction)
+    completion_fraction = np.array(completion_fraction)
     successful = np.array(successful)
-    print('total successful fraction:', np.sum(successful) / len(hangman_challenge.dictionary))
+    print('success rate:', np.sum(successful) / len(hangman_challenge.dictionary))
     
-    successful_fraction = []
+    success_rate = []
     plt.figure(dpi=600)
     for l in range(4, 16, 1):
-        filtered_fraction = finished_fraction[word_length == l]
-        successful_fraction.append(np.sum(successful[word_length == l]) / len(successful[word_length == l]))
+        filtered_fraction = completion_fraction[word_length == l]
+        success_rate.append(np.sum(successful[word_length == l]) / len(successful[word_length == l]))
         mean_value = filtered_fraction.mean()
         lower_error = filtered_fraction.std() 
         upper_error = min(1, filtered_fraction.std() + mean_value)   - mean_value  
         plt.errorbar(l, mean_value, yerr=[[lower_error], [upper_error]], capsize=5, fmt='o')
-    filtered_fraction = finished_fraction[word_length > 15]
-    successful_fraction.append(np.sum(successful[word_length > 15]) / len(successful[word_length > 15]))
+    filtered_fraction = completion_fraction[word_length > 15]
+    success_rate.append(np.sum(successful[word_length > 15]) / len(successful[word_length > 15]))
     mean_value = filtered_fraction.mean()
     lower_error = filtered_fraction.std() 
     upper_error = min(1, filtered_fraction.std() + mean_value)   - mean_value  
     plt.errorbar(16, mean_value, yerr=[[lower_error], [upper_error]], capsize=5, fmt='o')
-    plt.plot(np.arange(4, 17, 1), successful_fraction, color='gray', label="successful fraction")
+    plt.plot(np.arange(4, 17, 1), success_rate, color='gray', label="success rate")
     plt.xlabel("words' length")
-    plt.ylabel('finished fraction per word')
+    plt.ylabel('completion fraction per word')
     plt.legend()
-    plt.text(x=10, y=0.4, s='total successful fraction: ' + str(round(np.sum(successful) / len(hangman_challenge.dictionary), 3)), fontsize=10)
+    plt.text(x=10, y=0.4, s='total success rate: ' + str(round(np.sum(successful) / len(hangman_challenge.dictionary), 3)), fontsize=10)
     plt.xticks(np.arange(4, 17, 1), list(np.arange(4, 16, 1).astype(str)) + ['>15'])
     plt.grid(alpha=0.3)
     plt.savefig('validation.png', bbox_inches='tight')
