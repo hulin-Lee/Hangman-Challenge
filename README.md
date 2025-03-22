@@ -42,7 +42,7 @@ The dataset used is **english-words.70**, which includes approximately 33,000 En
 
 <img src="loss.png" alt="loss" width="45%"> 
 <img src="validation.png" alt="validation" width="45%">
-The upper panel displays the training and test loss curves. The success rate reaches 63.6% after 500 epochs of training. The lower panel illustrates the model's performance. 
+The upper panel displays the training and test loss curves. The success rate reaches 63.6% after 500 epochs of training. For reference, the success rate is approximately 19% when using a strategy based on letter matching and frequency (see frequency_policy.py), while DeepSeek-v3 achieves around 35% (see deepseek.py). The lower panel illustrates the model's performance. 
 The X-axis represents the word lengths, while the Y-axis shows the completion fraction per word. Dots represent the mean values, and error bars indicate one standard deviation. 
 The gray lines depict the success rate for different word lengths. The lower panel highlights that the model performs poorly for shorter words.
 
