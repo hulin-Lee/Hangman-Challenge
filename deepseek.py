@@ -4,7 +4,7 @@ from openai import OpenAI
 from tqdm import tqdm
 import re
 
-client = OpenAI(api_key="sk-134004841bed4117a27077bb8106cc78", base_url="https://api.deepseek.com")  # DeepSeek-v3
+client = OpenAI(api_key="xxx", base_url="https://api.deepseek.com")  # DeepSeek-v3
 
 model_name = 'deepseek-chat'
 
